@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # 추가한 APP
     'rest_framework',
+    'rest_framework.authtoken',
     'api_basic',
 ]
 

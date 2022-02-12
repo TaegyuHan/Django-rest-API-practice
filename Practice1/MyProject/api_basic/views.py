@@ -1,16 +1,59 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
 from rest_framework.parsers import JSONParser # json으로 보이기
+
 from rest_framework.decorators import api_view # 부트스트랩 형태로 보이기
 from rest_framework.response import Response
 from rest_framework import status
 
 from rest_framework.views import APIView # class 로 만들기
+from rest_framework import generics, mixins
+
+from rest_framework.authentication import (
+    SessionAuthentication, BasicAuthentication, TokenAuthentication
+)
+from rest_framework.permissions import IsAuthenticated
+
+from rest_framework import viewsets
 
 from .models import Article
 from .serializers import ArticleSerializer
+
+
+class GenericAPIView(generics.GenericAPIView,
+                     mixins.ListModelMixin,
+                     mixins.CreateModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.DestroyModelMixin):
+    """  GenericAPIView 클래스 버전
+         세부 원하는 CRUD 컨트롤 가능
+    """
+
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+
+    lookup_field = 'id'
+
+    # authentication_classes = [SessionAuthentication, BasicAuthentication] # ID 사용
+    authentication_classes = [TokenAuthentication] # 토큰 사용
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id=None):
+        if id:
+            return self.retrieve(request)
+        else:
+            return self.list(request)
+
+    def post(self, request, id=None):
+        return self.create(request, id)
+
+    def put(self, request, id=None):
+        return self.update(request, id)
+
+    def delete(self, request, id):
+        return self.destroy(request, id)
 
 
 class ArticleAPIView(APIView):
