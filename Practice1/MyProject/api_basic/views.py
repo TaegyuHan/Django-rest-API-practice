@@ -50,13 +50,17 @@ from .serializers import ArticleSerializer
 #             return Response(serializer.data, status=status.HTTP_200_OK)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ArticleViewSet(viewsets.GenericViewSet,
-                     mixins.ListModelMixin,
-                     mixins.CreateModelMixin,
-                     mixins.UpdateModelMixin,
-                     mixins.RetrieveModelMixin,
-                     mixins.DestroyModelMixin):
+# class ArticleViewSet(viewsets.GenericViewSet,
+#                      mixins.ListModelMixin,
+#                      mixins.CreateModelMixin,
+#                      mixins.UpdateModelMixin,
+#                      mixins.RetrieveModelMixin,
+#                      mixins.DestroyModelMixin):
+#
+#     serializer_class = ArticleSerializer
+#     queryset = Article.objects.all()
 
+class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
 
