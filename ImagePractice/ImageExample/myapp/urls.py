@@ -1,11 +1,11 @@
 from django.urls import path, include
-from .views import ImageViewSet, AwsimageViewSet
+from .views import Imageuploadviewset
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register("wsimage", AwsimageViewSet)
+router.register(r'imageupload', Imageuploadviewset)
 
 urlpatterns = [
-    path('upload/', ImageViewSet.as_view(), name='upload'),
+    path('imageupload', include(router.urls)),
     path('', include(router.urls)),
 ]

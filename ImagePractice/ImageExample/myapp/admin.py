@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import UploadImageTest, Awsimage
+from .models import imageupload
 
-admin.site.register(UploadImageTest)
-admin.site.register(Awsimage)
+admin.site.register(imageupload)
